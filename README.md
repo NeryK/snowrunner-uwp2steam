@@ -19,8 +19,23 @@ The migration is basically just renaming a number of files which have obfuscated
 4. Disable cloud saves for Snowrunner in Steam.
 5. Restart Steam in offline mode.
 6. Run Snowrunner and start a new game. Ensure the game is saved.
-7. Run the tool on the copy of the UWP data and write Steam data to a temporary directory: `py -m sr_u2s -i "C:\Temp\<another identifier>" -o "C:\Temp\steam_snowrunner_save"`
+7. Run the tool on the copy of the UWP data and write Steam data to a temporary directory: `sr_u2s -i "C:\Temp\<another identifier>" -o "C:\Temp\steam_snowrunner_save"`
 8. Find Steam saves location, somewhere like:`%ProgramFiles(x86)%\Steam\userdata\<your Steam id\`
 9. Copy the directory `1465360` from the Steam data output directory to the Steam saves location.
 10. Run Snowrunner. If all went according to plan, you have recovered your save.
 11. Re-enable cloud saves for the game and return online.
+
+## Build
+
+Can be built as a Python module.
+
+```
+py -m pip install -U setuptools wheel
+py setup.py sdist bdist_wheel
+```
+
+One-file bundled executable generated with pyinstaller.
+```
+py -m pip install -U pyinstaller
+py -m PyInstaller -F -n sr_u2s sr_u2s/__main__.py
+```
