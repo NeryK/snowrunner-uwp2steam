@@ -23,6 +23,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-i", "--input-uwp-save-directory", help="Snowrunner Windows Store savegame directory", required=True)
     parser.add_argument("-o", "--output-steam-save-directory", help="Snowrunner Steam savegame directory", required=True)
+    parser.add_argument("--bypass-hash-check", help="Continue running even when the container file is incomplete ; may yield corrupted output files", action="store_true", default=False)
     parser.add_argument("-v", "--version", action="version", version=__version__)
     args = parser.parse_args()
 
@@ -31,7 +32,7 @@ if __name__ == "__main__":
     if not os.path.exists(input_dir) or not os.path.isdir(input_dir):
         parser.error(f"Error accessing {input_dir}")
     container_path = locate_container(input_dir)
-    save_list = container.load_container(locate_container(input_dir))
+    save_list = container.load_container(locate_container(input_dir), args.bypass_hash_check)
     print(f"Container file {container_path} loaded.")
     output_subdir = os.path.join(args.output_steam_save_directory, "1465360", "remote")
     os.makedirs(output_subdir, exist_ok=True)
