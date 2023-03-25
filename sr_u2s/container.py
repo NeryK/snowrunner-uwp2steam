@@ -39,7 +39,8 @@ def load_container(container_path, bypass_hash_check=False):
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--input-container", help="UWP container.xyz file", required=True)
+    parser.add_argument("--bypass-hash-check", help="Continue running even when the container file is incomplete ; may yield corrupted output files", action="store_true", default=False)
     args = parser.parse_args()
 
-    save_list = load_container(args.input_container)
+    save_list = load_container(args.input_container, args.bypass_hash_check)
     print(save_list)
