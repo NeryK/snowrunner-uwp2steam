@@ -1,0 +1,24 @@
+name: PyInstaller
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['windows-latest']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - run: pip install pyinstaller
+    - run: pyinstaller -F -n sr_u2s sr_u2s/__main__.py
+    - uses: actions/upload-artifact@v3
+      with:
+        path: dist/*
