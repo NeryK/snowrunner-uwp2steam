@@ -1,4 +1,4 @@
-name: Build
+name: Build and release
 
 on:
   push:
@@ -8,7 +8,9 @@ on:
       - v*
 
 jobs:
+
   build:
+    name: Build exe and wheel
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -28,3 +30,21 @@ jobs:
       with:
         name: sr_u2s
         path: dist/*
+
+  release:
+    if: startsWith(github.event.ref, 'refs/tags/v')
+    needs: build
+    name: Create release with assets
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: sr_us2
+          path: dist
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*"
