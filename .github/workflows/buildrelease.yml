@@ -42,7 +42,7 @@ jobs:
       - name: Download
         uses: actions/download-artifact@v3
         with:
-          name: sr_us2
+          name: sr_u2s
           path: dist
       - name: Create release
         uses: ncipollo/release-action@v1
